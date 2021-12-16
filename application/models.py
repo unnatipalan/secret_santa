@@ -8,6 +8,39 @@ class User(db.Model):
     password = db.Column(db.String(120))
 
 
+# Table 1: Groups
+# - Group_ID : Int (Primary Key)
+# - Group_Name : String
+# - Number_of_Users : Int
+# - Created_date : Date
+# - Is_SecretSanta_Assigned : Boolean
+
+class Groups(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    group_name = db.Column(db.String(150))
+    number_of_users = db.Column(db.Integer)
+    created_date = db.Column(db.Date)
+    is_secretsanta_assigned = db.Column(db.Boolean)
+
+# Table 2: Users
+# - User_ID : Int (Primary Key)
+# - Group_ID : Int (Foreign Key) 
+# - User_Name : String
+
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=True)
+    username = db.Column(db.String(150))
+    
+# Table 3 - Pairs (Maybe)
+# - User_ID : Int (Foreign Key)
+# - Santee_User_ID : Relationship (Foreign Key)
+
+class Pairs(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    santee_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False) 
+
 # Sample for One-many and Many-Many relationship
 # class WorkItem(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
